@@ -37,18 +37,8 @@ function CanRig({
   const lastInteractionTime = useRef(0);
   const [activeInteracting, setActiveInteracting] = useState(false);
 
-  // Compute exploded progress based on scroll checkpoint (around scrollProgress 0.35 - 0.65) OR manual toggle
-  const scrollExploded = (() => {
-    if (scrollProgress >= 0.32 && scrollProgress <= 0.68) {
-      // Curve up and back down
-      const mid = 0.5;
-      const dist = Math.abs(scrollProgress - mid);
-      return Math.max(0, 1 - dist * 5);
-    }
-    return 0;
-  })();
-
-  const explodedAmount = isExplodedManual ? 1 : scrollExploded;
+  // Exploded progress: strictly triggered when user clicks 'Explode 3D Layers' in Anatomy section
+  const explodedAmount = isExplodedManual ? 1 : 0;
 
   // Pointer Drag Handlers
   useEffect(() => {

@@ -124,7 +124,7 @@ export function Navbar({
             <span>Crack Can</span>
           </button>
 
-          {/* Sound FX Toggle */}
+          {/* Sound FX Toggle
           <button
             onClick={() => {
               onToggleSound();
@@ -138,7 +138,7 @@ export function Navbar({
             ) : (
               <Volume2 className="w-4 h-4" style={{ color: currentFlavor.accentColor }} />
             )}
-          </button>
+          </button> */}
 
           {/* Cart Bag */}
           <button

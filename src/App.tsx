@@ -104,6 +104,8 @@ export default function App() {
         currentFlavor={currentFlavor}
         isMuted={isMuted}
         onToggleSound={handleToggleSound}
+        isMusicPlaying={isMusicPlaying}
+        onToggleMusic={handleToggleMusic}
         onOpenCart={() => setIsCartOpen(true)}
         onCrackCan={handleCrackCan}
         cartCount={cartCount}
