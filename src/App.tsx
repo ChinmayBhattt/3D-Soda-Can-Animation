@@ -10,12 +10,14 @@ import { OrderDrawer } from './components/ui/OrderDrawer';
 import { Footer } from './components/ui/Footer';
 import { FLAVORS, type Flavor } from './utils/flavors';
 import { soundManager } from './utils/audio';
+import { musicEngine } from './utils/music';
 
 export default function App() {
   const [currentFlavor, setCurrentFlavor] = useState<Flavor>(FLAVORS.lemon);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isExplodedManual, setIsExplodedManual] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
 
@@ -46,6 +48,12 @@ export default function App() {
   const handleCrackCan = () => {
     soundManager.playCanCrack();
 
+    // Auto-start chill music on crack if not already playing
+    if (!musicEngine.getIsPlaying()) {
+      musicEngine.start();
+      setIsMusicPlaying(true);
+    }
+
     // Effervescent carbonation burst from top of screen/center
     confetti({
       particleCount: 50,
@@ -61,6 +69,11 @@ export default function App() {
   const handleToggleSound = () => {
     const muted = soundManager.toggleMute();
     setIsMuted(muted);
+  };
+
+  const handleToggleMusic = () => {
+    const playing = musicEngine.toggle();
+    setIsMusicPlaying(playing);
   };
 
   return (

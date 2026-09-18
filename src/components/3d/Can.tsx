@@ -161,23 +161,6 @@ export function Can({ flavor, explodedProgress = 0 }: CanProps) {
       );
     }
 
-    // 3. Outer Label Sleeve expands outward
-    if (labelSleeveRef.current) {
-      const targetScale = 1.0 + target * 0.35;
-      labelSleeveRef.current.scale.x = THREE.MathUtils.damp(
-        labelSleeveRef.current.scale.x,
-        targetScale,
-        8,
-        delta
-      );
-      labelSleeveRef.current.scale.z = THREE.MathUtils.damp(
-        labelSleeveRef.current.scale.z,
-        targetScale,
-        8,
-        delta
-      );
-    }
-
     // 4. Liquid Core visibility & rotation
     if (liquidCoreRef.current) {
       liquidCoreRef.current.visible = target > 0.02;
@@ -198,7 +181,7 @@ export function Can({ flavor, explodedProgress = 0 }: CanProps) {
 
   return (
     <group ref={canGroupRef} dispose={null}>
-      {/* 1. MAIN PRINTED CAN SLEEVE (Cylinder) */}
+      {/* 1. MAIN PRINTED CAN SLEEVE (Solid 100% Metallic Can) */}
       {/* Rotated by Math.PI so u=0.5 (front artwork) faces directly toward +Z / camera! */}
       <mesh
         ref={labelSleeveRef}
@@ -207,7 +190,7 @@ export function Can({ flavor, explodedProgress = 0 }: CanProps) {
         position={[0, 0, 0]}
         rotation={[0, Math.PI, 0]}
       >
-        <cylinderGeometry args={[CAN_RADIUS, CAN_RADIUS, BODY_HEIGHT, 64, 1, true]} />
+        <cylinderGeometry args={[CAN_RADIUS, CAN_RADIUS, BODY_HEIGHT, 64, 1, false]} />
         <meshStandardMaterial
           map={labelTexture}
           bumpMap={bumpTexture}
@@ -221,13 +204,7 @@ export function Can({ flavor, explodedProgress = 0 }: CanProps) {
         <WaterDroplets count={100} canRadius={CAN_RADIUS} canHeight={BODY_HEIGHT} />
       </mesh>
 
-      {/* 2. INNER CAN BODY (Visible during exploded separation) */}
-      <mesh position={[0, 0, 0]}>
-        <cylinderGeometry args={[CAN_RADIUS * 0.98, CAN_RADIUS * 0.98, BODY_HEIGHT - 0.04, 48]} />
-        <primitive object={aluminumMaterial} attach="material" />
-      </mesh>
-
-      {/* 3. GLOWING LIQUID CORE WITH BUBBLES (Exploded view only) */}
+      {/* 2. GLOWING LIQUID CORE WITH BUBBLES (Exploded view only) */}
       <group ref={liquidCoreRef} visible={false}>
         <mesh position={[0, 0, 0]}>
           <cylinderGeometry args={[CAN_RADIUS * 0.88, CAN_RADIUS * 0.88, BODY_HEIGHT - 0.25, 32]} />

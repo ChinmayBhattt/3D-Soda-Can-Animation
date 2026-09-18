@@ -6,6 +6,8 @@ interface NavbarProps {
   currentFlavor: Flavor;
   isMuted: boolean;
   onToggleSound: () => void;
+  isMusicPlaying: boolean;
+  onToggleMusic: () => void;
   onOpenCart: () => void;
   onCrackCan: () => void;
   cartCount: number;
@@ -15,6 +17,8 @@ export function Navbar({
   currentFlavor,
   isMuted,
   onToggleSound,
+  isMusicPlaying,
+  onToggleMusic,
   onOpenCart,
   onCrackCan,
   cartCount,
@@ -70,6 +74,42 @@ export function Navbar({
 
         {/* Action Controls */}
         <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
+          {/* Background Music Toggle Button */}
+          <button
+            onClick={onToggleMusic}
+            className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full text-xs font-bold tracking-wider transition-all duration-300 shadow-md ${
+              isMusicPlaying
+                ? 'bg-white/15 text-white border border-white/30'
+                : 'glass-button text-zinc-300 hover:text-white'
+            }`}
+            title={isMusicPlaying ? 'Pause Chill Music' : 'Play Background Music'}
+          >
+            {/* Animated Equalizer Wave Bars */}
+            <div className="flex items-end gap-0.5 h-3.5">
+              <span
+                className={`w-0.5 rounded-full transition-all ${
+                  isMusicPlaying ? 'h-3 animate-pulse' : 'h-1.5 bg-zinc-400'
+                }`}
+                style={{ backgroundColor: isMusicPlaying ? currentFlavor.accentColor : undefined }}
+              />
+              <span
+                className={`w-0.5 rounded-full transition-all ${
+                  isMusicPlaying ? 'h-2 animate-bounce' : 'h-2 bg-zinc-400'
+                }`}
+                style={{ backgroundColor: isMusicPlaying ? currentFlavor.accentColor : undefined }}
+              />
+              <span
+                className={`w-0.5 rounded-full transition-all ${
+                  isMusicPlaying ? 'h-3.5 animate-pulse' : 'h-1 bg-zinc-400'
+                }`}
+                style={{ backgroundColor: isMusicPlaying ? currentFlavor.accentColor : undefined }}
+              />
+            </div>
+            <span className="hidden sm:inline">
+              {isMusicPlaying ? 'Music ON' : 'Play Music'}
+            </span>
+          </button>
+
           {/* Quick Crack Can Action */}
           <button
             onClick={onCrackCan}
@@ -84,7 +124,7 @@ export function Navbar({
             <span>Crack Can</span>
           </button>
 
-          {/* Sound Toggle */}
+          {/* Sound FX Toggle */}
           <button
             onClick={() => {
               onToggleSound();
