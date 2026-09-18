@@ -93,19 +93,14 @@ export function WaterDroplets({
       castShadow={false}
       receiveShadow={false}
     >
-      <sphereGeometry args={[1, 12, 12]} />
-      <meshPhysicalMaterial
+      <sphereGeometry args={[1, 8, 8]} />
+      <meshStandardMaterial
         color="#ffffff"
-        roughness={0.03}
-        metalness={0.05}
-        transmission={0.92}
-        thickness={0.15}
-        ior={1.333}
-        clearcoat={1}
-        clearcoatRoughness={0.02}
+        roughness={0.04}
+        metalness={0.15}
         transparent={true}
-        opacity={0.88}
-        envMapIntensity={2.5}
+        opacity={0.82}
+        envMapIntensity={2.4}
       />
     </instancedMesh>
   );

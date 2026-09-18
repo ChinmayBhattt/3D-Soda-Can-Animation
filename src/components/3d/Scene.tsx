@@ -249,48 +249,41 @@ export function Scene({
   return (
     <div className="fixed inset-0 z-10 pointer-events-auto select-none">
       <Canvas
-        camera={{ position: [0, 0, 7.2], fov: 38 }}
+        camera={{ position: [0, 0, 7.2], fov: 36 }}
         gl={{
           antialias: true,
           powerPreference: 'high-performance',
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.15,
         }}
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
       >
-        {/* Studio Lighting Setup: 3-Point Lighting */}
-        {/* Key Light: high intensity warm light */}
+        {/* Studio Lighting: 3-Point Lighting */}
         <directionalLight
           position={[4.5, 6.0, 5.0]}
-          intensity={2.8}
+          intensity={2.6}
           color="#fffdf5"
-          castShadow
-          shadow-mapSize={[1024, 1024]}
-          shadow-bias={-0.0001}
         />
 
-        {/* Fill Light: cool diffused ambient fill */}
         <directionalLight
           position={[-5.0, 2.0, 3.0]}
-          intensity={1.2}
+          intensity={1.0}
           color="#dbeafe"
         />
 
-        {/* Rim / Kicker Light: sharp backlight to accent aluminum silhouette and condensation */}
         <directionalLight
           position={[0, 4.0, -5.0]}
-          intensity={3.2}
+          intensity={3.0}
           color={flavor.accentColor}
         />
 
-        {/* Bottom Bounce / Ground Reflection Light */}
         <directionalLight
           position={[0, -4.0, 2.0]}
-          intensity={0.8}
+          intensity={0.6}
           color={flavor.color}
         />
 
-        <ambientLight intensity={0.65} />
+        <ambientLight intensity={0.7} />
 
         {/* Studio HDRI Environment for Photorealistic Reflections */}
         <Environment preset="studio" />

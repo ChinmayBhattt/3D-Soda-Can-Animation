@@ -104,30 +104,13 @@ function RealisticLimeSlice({
       {/* Lime Body with Texture on Top & Bottom Face */}
       <mesh castShadow receiveShadow>
         <cylinderGeometry
-          args={[radius, radius, thickness, 48, 1, false, 0, arcLength]}
+          args={[radius, radius, thickness, 32, 1, false, 0, arcLength]}
         />
         <meshStandardMaterial
           color="#ffffff"
           map={texture}
           roughness={0.25}
           metalness={0.08}
-        />
-      </mesh>
-
-      {/* Glossy Wet Clearcoat Layer */}
-      <mesh position={[0, 0.002, 0]}>
-        <cylinderGeometry
-          args={[radius * 0.98, radius * 0.98, thickness + 0.004, 32, 1, false, 0, arcLength]}
-        />
-        <meshPhysicalMaterial
-          color="#ffffff"
-          transmission={0.4}
-          roughness={0.1}
-          ior={1.34}
-          transparent
-          opacity={0.3}
-          clearcoat={1}
-          clearcoatRoughness={0.1}
         />
       </mesh>
     </group>
@@ -295,14 +278,13 @@ export function FloatingFruits({ flavor, scrollProgress }: FloatingFruitsProps) 
 
         return (
           <mesh key={i} position={[x, y, z]}>
-            <sphereGeometry args={[size, 8, 8]} />
-            <meshPhysicalMaterial
+            <sphereGeometry args={[size, 6, 6]} />
+            <meshStandardMaterial
               color="#ffffff"
-              transmission={0.95}
-              roughness={0.04}
-              ior={1.33}
+              roughness={0.08}
+              metalness={0.2}
               transparent
-              opacity={0.85}
+              opacity={0.75}
             />
           </mesh>
         );

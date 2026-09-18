@@ -199,26 +199,26 @@ export function Can({ flavor, explodedProgress = 0 }: CanProps) {
   return (
     <group ref={canGroupRef} dispose={null}>
       {/* 1. MAIN PRINTED CAN SLEEVE (Cylinder) */}
-      {/* Rotated by -Math.PI / 2 so u=0.5 (front label) faces directly toward +Z / camera! */}
+      {/* Rotated by Math.PI so u=0.5 (front artwork) faces directly toward +Z / camera! */}
       <mesh
         ref={labelSleeveRef}
         castShadow
         receiveShadow
         position={[0, 0, 0]}
-        rotation={[0, -Math.PI / 2, 0]}
+        rotation={[0, Math.PI, 0]}
       >
         <cylinderGeometry args={[CAN_RADIUS, CAN_RADIUS, BODY_HEIGHT, 64, 1, true]} />
         <meshStandardMaterial
           map={labelTexture}
           bumpMap={bumpTexture}
-          bumpScale={0.016}
+          bumpScale={0.012}
           roughness={0.24}
-          metalness={0.72}
-          envMapIntensity={1.8}
+          metalness={0.68}
+          envMapIntensity={1.6}
           side={THREE.DoubleSide}
         />
         {/* Physical 3D Water Droplets on Can Surface */}
-        <WaterDroplets count={130} canRadius={CAN_RADIUS} canHeight={BODY_HEIGHT} />
+        <WaterDroplets count={100} canRadius={CAN_RADIUS} canHeight={BODY_HEIGHT} />
       </mesh>
 
       {/* 2. INNER CAN BODY (Visible during exploded separation) */}
