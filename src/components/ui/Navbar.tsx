@@ -1,11 +1,10 @@
-import { Volume2, VolumeX, ShoppingBag, Sparkles } from 'lucide-react';
-import { soundManager } from '../../utils/audio';
+import { ShoppingBag, Sparkles } from 'lucide-react';
 import type { Flavor } from '../../utils/flavors';
 
 interface NavbarProps {
   currentFlavor: Flavor;
-  isMuted: boolean;
-  onToggleSound: () => void;
+  isMuted?: boolean;
+  onToggleSound?: () => void;
   isMusicPlaying: boolean;
   onToggleMusic: () => void;
   onOpenCart: () => void;
@@ -15,8 +14,6 @@ interface NavbarProps {
 
 export function Navbar({
   currentFlavor,
-  isMuted,
-  onToggleSound,
   isMusicPlaying,
   onToggleMusic,
   onOpenCart,

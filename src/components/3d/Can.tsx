@@ -19,7 +19,6 @@ export function Can({ flavor, explodedProgress = 0 }: CanProps) {
   const lidGroupRef = useRef<THREE.Group>(null);
   const tabRef = useRef<THREE.Group>(null);
   const labelSleeveRef = useRef<THREE.Mesh>(null);
-  const liquidCoreRef = useRef<THREE.Group>(null);
   const bottomChimeRef = useRef<THREE.Group>(null);
 
   // Proportions for realistic 500ml sleek aluminum beverage can
@@ -28,9 +27,23 @@ export function Can({ flavor, explodedProgress = 0 }: CanProps) {
   const HALF_HEIGHT = BODY_HEIGHT / 2; // 1.65
 
   // Textures
-  const labelTexture = useMemo(() => getCanLabelTexture(flavor), [flavor]);
-  const bumpTexture = useMemo(() => getCondensationBumpTexture(), []);
-  const lidTexture = useMemo(() => getTopLidTexture(), []);
+  const labelTexture = useMemo(() => {
+    const tex = getCanLabelTexture(flavor);
+    tex.needsUpdate = true;
+    return tex;
+  }, [flavor]);
+
+  const bumpTexture = useMemo(() => {
+    const tex = getCondensationBumpTexture();
+    tex.needsUpdate = true;
+    return tex;
+  }, []);
+
+  const lidTexture = useMemo(() => {
+    const tex = getTopLidTexture();
+    tex.needsUpdate = true;
+    return tex;
+  }, []);
 
   // Brushed Aluminum PBR Material
   const aluminumMaterial = useMemo(
@@ -161,13 +174,7 @@ export function Can({ flavor, explodedProgress = 0 }: CanProps) {
       );
     }
 
-    // 4. Liquid Core visibility & rotation
-    if (liquidCoreRef.current) {
-      liquidCoreRef.current.visible = target > 0.02;
-      liquidCoreRef.current.rotation.y += delta * 0.4;
-    }
-
-    // 5. Bottom chime drops downward
+    // 3. Bottom chime drops downward
     if (bottomChimeRef.current) {
       const targetBottomY = -HALF_HEIGHT - target * 1.0;
       bottomChimeRef.current.position.y = THREE.MathUtils.damp(
@@ -203,36 +210,6 @@ export function Can({ flavor, explodedProgress = 0 }: CanProps) {
         {/* Physical 3D Water Droplets on Can Surface */}
         <WaterDroplets count={100} canRadius={CAN_RADIUS} canHeight={BODY_HEIGHT} />
       </mesh>
-
-      {/* 2. GLOWING LIQUID CORE WITH BUBBLES (Exploded view only) */}
-      <group ref={liquidCoreRef} visible={false}>
-        <mesh position={[0, 0, 0]}>
-          <cylinderGeometry args={[CAN_RADIUS * 0.88, CAN_RADIUS * 0.88, BODY_HEIGHT - 0.25, 32]} />
-          <meshPhysicalMaterial
-            color={flavor.color}
-            emissive={flavor.accentColor}
-            emissiveIntensity={0.3}
-            transmission={0.88}
-            roughness={0.08}
-            ior={1.34}
-            transparent={true}
-            opacity={0.82}
-            thickness={0.4}
-          />
-        </mesh>
-        {/* Rising Effervescent Bubbles */}
-        {Array.from({ length: 28 }).map((_, i) => {
-          const angle = (i / 28) * Math.PI * 2 + (i % 4);
-          const rad = 0.15 + (i % 6) * 0.09;
-          const y = -1.2 + (i / 28) * 2.4;
-          return (
-            <mesh key={i} position={[Math.cos(angle) * rad, y, Math.sin(angle) * rad]}>
-              <sphereGeometry args={[0.028, 8, 8]} />
-              <meshBasicMaterial color="#ffffff" transparent opacity={0.8} />
-            </mesh>
-          );
-        })}
-      </group>
 
       {/* 4. TOP SHOULDER, SEAM RIM & PULL TAB */}
       <group ref={lidGroupRef} position={[0, HALF_HEIGHT, 0]}>

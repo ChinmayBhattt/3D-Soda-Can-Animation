@@ -207,7 +207,7 @@ function CanRig({
       {/* Floating Gentle Bobbing */}
       <Float speed={2.5} rotationIntensity={0.15} floatIntensity={0.25}>
         <group onClick={onCanClick}>
-          <Can flavor={flavor} explodedProgress={explodedAmount} />
+          <Can key={flavor.id} flavor={flavor} explodedProgress={explodedAmount} />
         </group>
       </Float>
 
